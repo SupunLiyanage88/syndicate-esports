@@ -46,14 +46,25 @@ export function HeroSection() {
         className="relative z-10 text-center px-4 max-w-4xl mx-auto pt-16"
       >
         <motion.div variants={fadeInUp} className="mb-8">
-          <Image
-            src="/images/Ascendant_logo.png"
-            alt="Ascendant League Logo"
-            width={180}
-            height={180}
-            className="mx-auto drop-shadow-[0_0_30px_rgba(201,162,39,0.4)]"
-            priority
-          />
+          <div className="flex items-center justify-center gap-6 md:gap-10">
+            <Image
+              src="/images/Ascendant_logo.png"
+              alt="Ascendant League Logo"
+              width={140}
+              height={140}
+              className="drop-shadow-[0_0_30px_rgba(201,162,39,0.4)]"
+              priority
+            />
+            <span className="font-rajdhani font-bold text-4xl md:text-6xl text-gold">X</span>
+            <Image
+              src="/images/mlbb_logo.png"
+              alt="Mobile Legends Bang Bang Logo"
+              width={140}
+              height={140}
+              className="drop-shadow-[0_0_30px_rgba(201,162,39,0.3)]"
+              priority
+            />
+          </div>
         </motion.div>
 
         <motion.h1
