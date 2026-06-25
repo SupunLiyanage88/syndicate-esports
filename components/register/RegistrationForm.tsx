@@ -97,19 +97,6 @@ export function RegistrationForm() {
               )}
             </div>
 
-            {/* Team Logo */}
-            <div>
-              <label className="block font-rajdhani text-xs text-silver uppercase tracking-wider mb-2">
-                Team Logo (Optional)
-              </label>
-              <input
-                type="file"
-                accept="image/*"
-                {...register("teamLogo")}
-                className="w-full bg-surface border border-border rounded-inputs px-4 py-3 font-inter text-white file:mr-4 file:py-2 file:px-4 file:rounded-buttons file:border-0 file:bg-gold file:text-background file:font-rajdhani file:font-semibold file:uppercase file:text-sm file:cursor-pointer hover:file:bg-gold-light transition-all duration-200"
-              />
-            </div>
-
             {/* Captain Name */}
             <div>
               <label className="block font-rajdhani text-xs text-silver uppercase tracking-wider mb-2">

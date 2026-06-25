@@ -2,9 +2,13 @@ import { Team, TournamentSchedule } from "./types";
 
 export const mockTeams: Team[] = [
   {
-    id: "1",
-    name: "Colombo Titans",
-    captain: "Kavinda Perera",
+    _id: "1",
+    teamName: "Colombo Titans",
+    captainName: "Kavinda Perera",
+    captainPhone: "+94771234567",
+    captainWhatsApp: "+94771234567",
+    captainDiscord: "kavinda#1234",
+    substitutes: [],
     status: "approved",
     registeredAt: "2026-06-15",
     players: [
@@ -16,9 +20,13 @@ export const mockTeams: Team[] = [
     ],
   },
   {
-    id: "2",
-    name: "Lion Knights",
-    captain: "Ashan Fernando",
+    _id: "2",
+    teamName: "Lion Knights",
+    captainName: "Ashan Fernando",
+    captainPhone: "+94772345678",
+    captainWhatsApp: "+94772345678",
+    captainDiscord: "ashan#5678",
+    substitutes: [],
     status: "approved",
     registeredAt: "2026-06-16",
     players: [
@@ -30,9 +38,13 @@ export const mockTeams: Team[] = [
     ],
   },
   {
-    id: "3",
-    name: "Dragon Eagles",
-    captain: "Nipun Silva",
+    _id: "3",
+    teamName: "Dragon Eagles",
+    captainName: "Nipun Silva",
+    captainPhone: "+94773456789",
+    captainWhatsApp: "+94773456789",
+    captainDiscord: "nipun#9012",
+    substitutes: [],
     status: "approved",
     registeredAt: "2026-06-17",
     players: [
@@ -44,9 +56,13 @@ export const mockTeams: Team[] = [
     ],
   },
   {
-    id: "4",
-    name: "Kandy Wolves",
-    captain: "Dilshan Rajapaksa",
+    _id: "4",
+    teamName: "Kandy Wolves",
+    captainName: "Dilshan Rajapaksa",
+    captainPhone: "+94774567890",
+    captainWhatsApp: "+94774567890",
+    captainDiscord: "dilshan#3456",
+    substitutes: [],
     status: "pending",
     registeredAt: "2026-06-18",
     players: [
@@ -58,9 +74,13 @@ export const mockTeams: Team[] = [
     ],
   },
   {
-    id: "5",
-    name: "Galle Gladiators",
-    captain: "Ruwan Bandara",
+    _id: "5",
+    teamName: "Galle Gladiators",
+    captainName: "Ruwan Bandara",
+    captainPhone: "+94775678901",
+    captainWhatsApp: "+94775678901",
+    captainDiscord: "ruwan#7890",
+    substitutes: [],
     status: "approved",
     registeredAt: "2026-06-19",
     players: [

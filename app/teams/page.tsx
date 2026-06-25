@@ -1,9 +1,10 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Users } from "lucide-react";
+import { Users, Shield, Clock } from "lucide-react";
 import { TeamCard } from "@/components/teams/TeamCard";
-import { mockTeams } from "@/lib/mock-data";
+import { Team } from "@/lib/types";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
@@ -11,8 +12,45 @@ const fadeInUp = {
 };
 
 export default function TeamsPage() {
-  const approvedTeams = mockTeams.filter((t) => t.status === "approved");
-  const pendingTeams = mockTeams.filter((t) => t.status === "pending");
+  const [teams, setTeams] = useState<Team[]>([]);
+  const [maxSlots, setMaxSlots] = useState(8);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const [teamsRes, settingsRes] = await Promise.all([
+          fetch("/api/teams"),
+          fetch("/api/settings"),
+        ]);
+        const teamsData = await teamsRes.json();
+        const settingsData = await settingsRes.json();
+
+        if (teamsData.success) {
+          setTeams(teamsData.teams);
+        }
+        if (settingsData.success && settingsData.settings?.maxTeams) {
+          setMaxSlots(settingsData.settings.maxTeams);
+        }
+      } catch (err) {
+        console.error("Failed to load data:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen py-20 px-4 flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-gold border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  const approvedTeams = teams.filter((t) => t.status === "approved");
+  const pendingTeams = teams.filter((t) => t.status === "pending");
 
   return (
     <div className="min-h-screen py-20 px-4">
@@ -27,56 +65,11 @@ export default function TeamsPage() {
             Registered Teams
           </h1>
           <p className="font-inter text-silver max-w-lg mx-auto">
-            {approvedTeams.length} of 8 slots filled. Join the competition.
+            {approvedTeams.length} of {maxSlots} slots filled. Join the competition.
           </p>
         </motion.div>
 
-        {/* Approved Teams */}
-        {approvedTeams.length > 0 && (
-          <div className="mb-12">
-            <h2 className="font-rajdhani font-semibold text-xl text-white uppercase tracking-wider mb-6 flex items-center gap-3">
-              <Users className="w-5 h-5 text-gold" />
-              Confirmed Teams
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {approvedTeams.map((team, index) => (
-                <motion.div
-                  key={team.id}
-                  variants={fadeInUp}
-                  initial="hidden"
-                  animate="visible"
-                  transition={{ delay: index * 0.1 }}
-                >
-                  <TeamCard team={team} />
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Pending Teams */}
-        {pendingTeams.length > 0 && (
-          <div>
-            <h2 className="font-rajdhani font-semibold text-xl text-silver uppercase tracking-wider mb-6">
-              Pending Review
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {pendingTeams.map((team, index) => (
-                <motion.div
-                  key={team.id}
-                  variants={fadeInUp}
-                  initial="hidden"
-                  animate="visible"
-                  transition={{ delay: index * 0.1 }}
-                >
-                  <TeamCard team={team} />
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {mockTeams.length === 0 && (
+        {teams.length === 0 ? (
           <motion.div
             variants={fadeInUp}
             initial="hidden"
@@ -88,6 +81,52 @@ export default function TeamsPage() {
               No teams registered yet. Be the first to sign up!
             </p>
           </motion.div>
+        ) : (
+          <>
+            {approvedTeams.length > 0 && (
+              <div className="mb-12">
+                <h2 className="font-rajdhani font-semibold text-xl text-white uppercase tracking-wider mb-6 flex items-center gap-3">
+                  <Shield className="w-5 h-5 text-gold" />
+                  Confirmed Teams
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {approvedTeams.map((team, index) => (
+                    <motion.div
+                      key={team._id}
+                      variants={fadeInUp}
+                      initial="hidden"
+                      animate="visible"
+                      transition={{ delay: index * 0.1 }}
+                    >
+                      <TeamCard team={team} />
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {pendingTeams.length > 0 && (
+              <div>
+                <h2 className="font-rajdhani font-semibold text-xl text-silver uppercase tracking-wider mb-6 flex items-center gap-3">
+                  <Clock className="w-5 h-5 text-silver" />
+                  Pending Review
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {pendingTeams.map((team, index) => (
+                    <motion.div
+                      key={team._id}
+                      variants={fadeInUp}
+                      initial="hidden"
+                      animate="visible"
+                      transition={{ delay: index * 0.1 }}
+                    >
+                      <TeamCard team={team} />
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>

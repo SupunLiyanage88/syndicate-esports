@@ -19,11 +19,11 @@ export function TeamCard({ team }: TeamCardProps) {
           </div>
           <div>
             <h3 className="font-rajdhani font-semibold text-lg text-white uppercase tracking-wider">
-              {team.name}
+              {team.teamName}
             </h3>
             <p className="font-inter text-muted text-sm flex items-center gap-1">
               <User className="w-3 h-3" />
-              {team.captain}
+              {team.captainName}
             </p>
           </div>
         </div>

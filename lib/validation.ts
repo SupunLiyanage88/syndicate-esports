@@ -44,10 +44,8 @@ export const registrationSchema = z.object({
     .array(playerSchema)
     .length(5, "Exactly 5 main players are required"),
   substitutes: z.array(playerSchema).max(2, "Maximum 2 substitutes allowed"),
-  agreement: z.literal(true, {
-    errorMap: () => ({
-      message: "You must agree to the tournament rules",
-    }),
+  agreement: z.boolean().refine((v) => v === true, {
+    message: "You must agree to the tournament rules",
   }),
 });
 

@@ -1,11 +1,12 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { CountdownTimer } from "@/components/ui/CountdownTimer";
-import { tournamentSchedule } from "@/lib/mock-data";
+import { tournamentSchedule as fallback } from "@/lib/mock-data";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
@@ -16,19 +17,28 @@ const container = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: {
-      staggerChildren: 0.15,
-    },
+    transition: { staggerChildren: 0.15 },
   },
 };
 
 export function HeroSection() {
+  const [deadline, setDeadline] = useState(fallback.registrationDeadline);
+
+  useEffect(() => {
+    fetch("/api/settings")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && data.settings?.registrationDeadline) {
+          setDeadline(data.settings.registrationDeadline);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background gradient */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(201,162,39,0.08)_0%,transparent_60%)]" />
-      
-      {/* Content */}
+
       <motion.div
         variants={container}
         initial="hidden"
@@ -38,7 +48,7 @@ export function HeroSection() {
         <motion.div variants={fadeInUp} className="mb-8">
           <Image
             src="/images/Ascendant_logo.png"
-            alt="Syndicate Esports Logo"
+            alt="Ascendant League Logo"
             width={180}
             height={180}
             className="mx-auto drop-shadow-[0_0_30px_rgba(201,162,39,0.4)]"
@@ -80,7 +90,7 @@ export function HeroSection() {
         </motion.div>
 
         <motion.div variants={fadeInUp}>
-          <CountdownTimer targetDate={tournamentSchedule.registrationDeadline} />
+          <CountdownTimer targetDate={deadline} />
         </motion.div>
       </motion.div>
     </section>

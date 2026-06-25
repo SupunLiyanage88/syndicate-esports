@@ -1,12 +1,13 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Calendar, Users, Swords, Clock, AlertTriangle, MessageCircle } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { GoldDivider } from "@/components/ui/GoldDivider";
-import { tournamentSchedule } from "@/lib/mock-data";
+import { tournamentSchedule as fallbackSchedule } from "@/lib/mock-data";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
@@ -32,6 +33,48 @@ const sections = [
 ];
 
 export default function TournamentPage() {
+  const [schedule, setSchedule] = useState(fallbackSchedule);
+  const [maxTeams, setMaxTeams] = useState(8);
+
+  useEffect(() => {
+    async function loadSettings() {
+      try {
+        const res = await fetch("/api/settings");
+        const data = await res.json();
+        if (data.success && data.settings) {
+          setSchedule({
+            registrationDeadline: data.settings.registrationDeadline,
+            groupStage: {
+              start: data.settings.groupStageStart,
+              end: data.settings.groupStageEnd,
+            },
+            semiFinals: data.settings.semiFinals,
+            grandFinal: data.settings.grandFinal,
+          });
+          setMaxTeams(data.settings.maxTeams || 8);
+        }
+      } catch {
+        // Fallback to mock
+      }
+    }
+    loadSettings();
+  }, []);
+
+  const formatDate = (dateStr: string) => {
+    return new Date(dateStr).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
+
+  const formatShortDate = (dateStr: string) => {
+    return new Date(dateStr).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+    });
+  };
+
   return (
     <div className="min-h-screen py-20 px-4">
       <div className="max-w-4xl mx-auto">
@@ -44,7 +87,6 @@ export default function TournamentPage() {
           Tournament Info
         </motion.h1>
 
-        {/* Sections */}
         <div className="space-y-6 mb-12">
           {sections.map((section, index) => (
             <motion.div
@@ -75,7 +117,6 @@ export default function TournamentPage() {
 
         <GoldDivider />
 
-        {/* Schedule */}
         <motion.div
           variants={fadeInUp}
           initial="hidden"
@@ -94,11 +135,7 @@ export default function TournamentPage() {
                   Registration Deadline:
                 </span>
                 <span className="font-inter text-gold-light">
-                  {new Date(tournamentSchedule.registrationDeadline).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
+                  {formatDate(schedule.registrationDeadline)}
                 </span>
               </div>
               <div className="flex flex-col sm:flex-row sm:items-center gap-2">
@@ -106,16 +143,7 @@ export default function TournamentPage() {
                   Group Stage:
                 </span>
                 <span className="font-inter text-silver">
-                  {new Date(tournamentSchedule.groupStage.start).toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                  })}{" "}
-                  —{" "}
-                  {new Date(tournamentSchedule.groupStage.end).toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                  })}
+                  {formatShortDate(schedule.groupStage.start)} — {formatDate(schedule.groupStage.end)}
                 </span>
               </div>
               <div className="flex flex-col sm:flex-row sm:items-center gap-2">
@@ -123,11 +151,7 @@ export default function TournamentPage() {
                   Semi-Finals:
                 </span>
                 <span className="font-inter text-silver">
-                  {new Date(tournamentSchedule.semiFinals).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
+                  {formatDate(schedule.semiFinals)}
                 </span>
               </div>
               <div className="flex flex-col sm:flex-row sm:items-center gap-2">
@@ -135,18 +159,13 @@ export default function TournamentPage() {
                   Grand Final:
                 </span>
                 <span className="font-inter text-gold-light font-medium">
-                  {new Date(tournamentSchedule.grandFinal).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
+                  {formatDate(schedule.grandFinal)}
                 </span>
               </div>
             </div>
           </Card>
         </motion.div>
 
-        {/* Registration Deadline Highlight */}
         <motion.div
           variants={fadeInUp}
           initial="hidden"
@@ -159,22 +178,16 @@ export default function TournamentPage() {
               <AlertTriangle className="w-8 h-8 text-gold flex-shrink-0" />
               <div>
                 <h3 className="font-rajdhani font-semibold text-xl text-gold uppercase tracking-wider mb-2">
-                  Registration Closes{" "}
-                  {new Date(tournamentSchedule.registrationDeadline).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
+                  Registration Closes {formatDate(schedule.registrationDeadline)}
                 </h3>
                 <p className="font-inter text-silver">
-                  Limited to 8 teams. Secure your spot now.
+                  Limited to {maxTeams} teams. Secure your spot now.
                 </p>
               </div>
             </div>
           </Card>
         </motion.div>
 
-        {/* Contact */}
         <motion.div
           variants={fadeInUp}
           initial="hidden"
