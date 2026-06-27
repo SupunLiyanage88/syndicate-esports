@@ -14,14 +14,14 @@ export function TeamCard({ team }: TeamCardProps) {
     <Card hover>
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-gold/10 rounded-lg">
-            <Shield className="w-5 h-5 text-gold" />
+          <div className="p-2 bg-primary/10 rounded-buttons border border-primary/20">
+            <Shield className="w-5 h-5 text-primary" />
           </div>
           <div>
-            <h3 className="font-rajdhani font-semibold text-lg text-white uppercase tracking-wider">
+            <h3 className="font-russo text-lg text-white uppercase tracking-wide">
               {team.teamName}
             </h3>
-            <p className="font-inter text-muted text-sm flex items-center gap-1">
+            <p className="font-chakra text-muted text-sm flex items-center gap-1">
               <User className="w-3 h-3" />
               {team.captainName}
             </p>
@@ -31,24 +31,24 @@ export function TeamCard({ team }: TeamCardProps) {
       </div>
 
       <div className="mt-4">
-        <h4 className="font-rajdhani text-xs text-silver uppercase tracking-widest mb-2">
+        <h4 className="font-russo text-xs text-silver uppercase tracking-widest mb-2">
           Roster
         </h4>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
           {team.players.map((player) => (
             <div
               key={player.ign}
-              className="bg-surface rounded-md px-3 py-2 border border-border"
+              className="bg-surface-high rounded-buttons px-3 py-2 border border-border"
             >
-              <p className="font-inter text-white text-sm truncate">{player.ign}</p>
-              <p className="font-inter text-muted text-xs">{player.role}</p>
+              <p className="font-chakra text-white text-sm truncate">{player.ign}</p>
+              <p className="font-chakra text-muted text-xs">{player.role}</p>
             </div>
           ))}
         </div>
       </div>
 
       <div className="mt-4 pt-4 border-t border-border">
-        <p className="font-inter text-muted text-xs">
+        <p className="font-chakra text-muted text-xs">
           Registered:{" "}
           {new Date(team.registeredAt).toLocaleDateString("en-US", {
             year: "numeric",

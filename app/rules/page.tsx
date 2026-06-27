@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { ScrollText, Shield, Clock, AlertTriangle, Users, Trophy } from "lucide-react";
 import { Card } from "@/components/ui/Card";
-import { GoldDivider } from "@/components/ui/GoldDivider";
+import { RedDivider } from "@/components/ui/RedDivider";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
@@ -85,10 +85,13 @@ export default function RulesPage() {
           animate="visible"
           className="text-center mb-12"
         >
-          <h1 className="font-rajdhani font-bold text-4xl md:text-5xl text-gold uppercase tracking-wider mb-4">
+          <span className="inline-block px-4 py-1 bg-primary/10 border border-primary/30 rounded-full text-primary text-sm font-chakra uppercase tracking-widest mb-4">
+            Official Guidelines
+          </span>
+          <h1 className="font-russo text-4xl md:text-5xl text-white uppercase tracking-wider mb-4">
             Tournament Rules
           </h1>
-          <p className="font-inter text-silver max-w-lg mx-auto">
+          <p className="font-chakra text-silver max-w-lg mx-auto">
             Please read all rules carefully. By registering, you agree to comply with these regulations.
           </p>
         </motion.div>
@@ -104,20 +107,20 @@ export default function RulesPage() {
             >
               <Card>
                 <div className="flex items-start gap-4">
-                  <div className="p-3 bg-gold/10 rounded-lg flex-shrink-0">
-                    <section.icon className="w-6 h-6 text-gold" />
+                  <div className="p-3 bg-primary/10 rounded-buttons border border-primary/20 flex-shrink-0">
+                    <section.icon className="w-6 h-6 text-primary" />
                   </div>
                   <div className="flex-1">
-                    <h2 className="font-rajdhani font-semibold text-xl text-white uppercase tracking-wider mb-4">
+                    <h2 className="font-russo text-xl text-white uppercase tracking-wide mb-4">
                       {section.title}
                     </h2>
                     <ul className="space-y-3">
                       {section.items.map((item, itemIndex) => (
                         <li
                           key={itemIndex}
-                          className="flex items-start gap-3 font-inter text-silver text-sm leading-relaxed"
+                          className="flex items-start gap-3 font-chakra text-silver text-sm leading-relaxed"
                         >
-                          <span className="text-gold mt-1">•</span>
+                          <span className="text-primary mt-1">▸</span>
                           {item}
                         </li>
                       ))}
@@ -125,7 +128,7 @@ export default function RulesPage() {
                   </div>
                 </div>
               </Card>
-              {index < rules.length - 1 && <GoldDivider className="py-2" />}
+              {index < rules.length - 1 && <RedDivider className="py-2" />}
             </motion.div>
           ))}
         </div>
@@ -137,14 +140,14 @@ export default function RulesPage() {
           transition={{ delay: 0.6 }}
           className="mt-12"
         >
-          <Card className="border-2 border-gold/50 bg-gold/5">
+          <Card className="border-2 border-primary/50 bg-primary/5">
             <div className="text-center">
-              <AlertTriangle className="w-8 h-8 text-gold mx-auto mb-4" />
-              <h3 className="font-rajdhani font-semibold text-xl text-gold uppercase tracking-wider mb-2">
+              <AlertTriangle className="w-8 h-8 text-primary mx-auto mb-4" />
+              <h3 className="font-russo text-xl text-primary uppercase tracking-wide mb-2">
                 Important Notice
               </h3>
-              <p className="font-inter text-silver max-w-xl mx-auto">
-                These rules are subject to change. Any updates will be announced on our Discord server. 
+              <p className="font-chakra text-silver max-w-xl mx-auto">
+                These rules are subject to change. Any updates will be announced on our Discord server.
                 It is your responsibility to stay informed about rule changes.
               </p>
             </div>
