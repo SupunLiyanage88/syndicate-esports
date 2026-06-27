@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --background: #0A0A0F;
+  --surface: #12121A;
+  --surface-high: #1A1A28;
+  --border: #2A2A3E;
+  --border-glow: #C9A227;
+  --gold: #C9A227;
+  --gold-light: #F5D76E;
+  --silver: #9EA3B0;
+  --white: #F0F0F5;
+  --muted: #6B7280;
+  --danger: #EF4444;
+  --success: #10B981;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--background);
+  color: var(--white);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Gold glow divider */
+.gold-divider {
+  position: relative;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.gold-divider::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 8px;
+  background: radial-gradient(ellipse, rgba(201, 162, 39, 0.4), transparent);
+  filter: blur(4px);
+  bottom: -4px;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold);
+}
+
+/* Selection color */
+::selection {
+  background-color: rgba(201, 162, 39, 0.3);
+  color: var(--white);
+}
+
+/* Focus ring */
+*:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
