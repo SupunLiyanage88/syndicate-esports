@@ -73,3 +73,39 @@ export interface DashboardStats {
   maxSlots: number;
   daysUntilDeadline: number;
 }
+
+// Bracket Types
+export interface BracketTeam {
+  teamId: string;
+  teamName: string;
+  score: number;
+}
+
+export interface BracketMatch {
+  matchId: string;
+  position: number;
+  team1: BracketTeam | null;
+  team2: BracketTeam | null;
+  winner: string | null;
+  isLive: boolean;
+  isCompleted: boolean;
+  scheduledTime: string | null;
+}
+
+export interface BracketRound {
+  name: string;
+  roundNumber: number;
+  matches: BracketMatch[];
+}
+
+export interface Bracket {
+  _id: string;
+  tournamentName: string;
+  isVisible: boolean;
+  isGenerated: boolean;
+  rounds: BracketRound[];
+  champion: string | null;
+  mvp: string | null;
+  createdAt: string;
+  updatedAt: string;
+}

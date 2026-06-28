@@ -95,53 +95,78 @@ export function HeroSection() {
         animate="visible"
         className="relative z-10 text-center px-4 max-w-5xl mx-auto pt-16"
       >
-        {/* Tournament Logos */}
+        {/* Tournament Logos - Syndicate Esports + Ascendant League */}
         <motion.div variants={fadeInUp} className="mb-8">
-          <div className="flex items-center justify-center gap-6 md:gap-10">
+          <div className="flex items-center justify-center gap-6 md:gap-8">
+            {/* Syndicate Esports Logo */}
             <motion.div
               className="relative"
-              whileHover={{ scale: 1.1, rotate: 5 }}
+              whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
-              <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full" />
+              <div className="absolute inset-0 bg-primary/15 blur-xl rounded-full" />
               <Image
-                src="/images/Ascendant_logo.png"
-                alt="Ascendant League Logo"
-                width={120}
-                height={120}
-                className="relative drop-shadow-[0_0_30px_rgba(230,57,70,0.5)]"
+                src="/images/syndicate logo.png"
+                alt="Syndicate Esports"
+                width={80}
+                height={80}
+                className="relative drop-shadow-[0_0_20px_rgba(230,57,70,0.4)]"
                 priority
               />
             </motion.div>
-            <motion.span
-              className="font-russo text-4xl md:text-5xl text-primary neon-text"
-              animate={{
-                textShadow: [
-                  "0 0 5px #E63946, 0 0 10px #E63946",
-                  "0 0 20px #E63946, 0 0 40px #E63946, 0 0 60px #00D4FF",
-                  "0 0 5px #E63946, 0 0 10px #E63946",
-                ],
-              }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-            >
-              VS
-            </motion.span>
+
+            {/* Decorative Divider */}
+            <div className="flex flex-col items-center gap-1">
+              <motion.div
+                className="w-12 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent"
+                animate={{ opacity: [0.5, 1, 0.5] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              />
+              <motion.span
+                className="font-chakra text-xs text-primary uppercase tracking-widest"
+                animate={{ opacity: [0.6, 1, 0.6] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                presents
+              </motion.span>
+              <motion.div
+                className="w-12 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent"
+                animate={{ opacity: [0.5, 1, 0.5] }}
+                transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
+              />
+            </div>
+
+            {/* Ascendant League Logo */}
             <motion.div
               className="relative"
-              whileHover={{ scale: 1.1, rotate: -5 }}
+              whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
-              <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full" />
+              <div className="absolute inset-0 bg-gold/15 blur-xl rounded-full" />
               <Image
-                src="/images/mlbb_logo.png"
-                alt="Mobile Legends Bang Bang Logo"
-                width={120}
-                height={120}
-                className="relative drop-shadow-[0_0_30px_rgba(230,57,70,0.4)]"
+                src="/images/Ascendant_logo.png"
+                alt="Ascendant League"
+                width={100}
+                height={100}
+                className="relative drop-shadow-[0_0_25px_rgba(255,215,0,0.4)]"
                 priority
               />
             </motion.div>
           </div>
+
+          {/* Game Badge */}
+          <motion.div
+            className="mt-4 flex items-center justify-center gap-2"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+          >
+            <div className="w-8 h-0.5 bg-border" />
+            <span className="font-chakra text-xs text-muted uppercase tracking-widest">
+              Mobile Legends: Bang Bang
+            </span>
+            <div className="w-8 h-0.5 bg-border" />
+          </motion.div>
         </motion.div>
 
         {/* Season Badge */}
@@ -168,10 +193,23 @@ export function HeroSection() {
 
         <motion.p
           variants={fadeInUp}
-          className="font-chakra font-medium text-xl md:text-2xl text-silver uppercase tracking-widest mb-6"
+          className="font-chakra font-medium text-xl md:text-2xl text-silver uppercase tracking-widest mb-4"
         >
           MLBB 5v5 Championship
         </motion.p>
+
+        <motion.div
+          variants={fadeInUp}
+          className="flex justify-center mb-6"
+        >
+          <Image
+            src="/images/mlbb_logo.png"
+            alt="Mobile Legends: Bang Bang"
+            width={220}
+            height={55}
+            className="object-contain"
+          />
+        </motion.div>
 
         <motion.p
           variants={fadeInUp}

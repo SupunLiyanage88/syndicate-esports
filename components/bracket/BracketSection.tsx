@@ -1,87 +1,86 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { Swords, Clock } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/Card";
 import { TournamentBracketDisplay } from "./TournamentBracket";
 import { TournamentBracket } from "./types";
 
-const sampleBracket: TournamentBracket = {
-  rounds: [
-    {
-      name: "Quarter Finals",
-      matches: [
-        {
-          id: "QF1",
-          round: 0,
-          position: 0,
-          team1: { id: "t1", name: "Colombo Titans", score: 2 },
-          team2: { id: "t2", name: "Lion Knights", score: 1 },
-          winner: "t1",
-        },
-        {
-          id: "QF2",
-          round: 0,
-          position: 1,
-          team1: { id: "t3", name: "Dragon Eagles", score: 0 },
-          team2: { id: "t4", name: "Kandy Wolves", score: 2 },
-          winner: "t4",
-        },
-        {
-          id: "QF3",
-          round: 0,
-          position: 2,
-          team1: { id: "t5", name: "Galle Gladiators", score: 2 },
-          team2: { id: "t6", name: "Jaffna Kings", score: 0 },
-          winner: "t5",
-        },
-        {
-          id: "QF4",
-          round: 0,
-          position: 3,
-          team1: { id: "t7", name: "Negombo Sharks", score: 1 },
-          team2: { id: "t8", name: "Matara Hawks", score: 2 },
-          winner: "t8",
-          isLive: false,
-        },
-      ],
-    },
-    {
-      name: "Semi Finals",
-      matches: [
-        {
-          id: "SF1",
-          round: 1,
-          position: 0,
-          team1: { id: "t1", name: "Colombo Titans", score: 2 },
-          team2: { id: "t4", name: "Kandy Wolves", score: 1 },
-          winner: "t1",
-        },
-        {
-          id: "SF2",
-          round: 1,
-          position: 1,
-          team1: { id: "t5", name: "Galle Gladiators" },
-          team2: { id: "t8", name: "Matara Hawks" },
-          isLive: true,
-        },
-      ],
-    },
-    {
-      name: "Grand Final",
-      matches: [
-        {
-          id: "GF",
-          round: 2,
-          position: 0,
-          team1: { id: "t1", name: "Colombo Titans" },
-          team2: { id: "t5", name: "Galle Gladiators" },
-        },
-      ],
-    },
-  ],
-};
-
 export function BracketSection() {
+  const [bracket, setBracket] = useState<TournamentBracket | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchBracket();
+  }, []);
+
+  const fetchBracket = async () => {
+    try {
+      const res = await fetch("/api/bracket");
+      const data = await res.json();
+      if (data.success && data.bracket) {
+        setBracket(data.bracket);
+      }
+    } catch (err) {
+      console.error("Failed to fetch bracket:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <section className="py-20 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <span className="inline-block px-4 py-1 bg-primary/10 border border-primary/30 rounded-full text-primary text-sm font-chakra uppercase tracking-widest mb-4">
+              Live Bracket
+            </span>
+            <h2 className="font-russo text-4xl md:text-5xl text-white uppercase tracking-wider">
+              Tournament Bracket
+            </h2>
+          </div>
+          <Card className="py-12">
+            <div className="text-center">
+              <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto" />
+              <p className="font-chakra text-sm text-muted mt-4">Loading bracket...</p>
+            </div>
+          </Card>
+        </div>
+      </section>
+    );
+  }
+
+  if (!bracket) {
+    return (
+      <section className="py-20 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <span className="inline-block px-4 py-1 bg-primary/10 border border-primary/30 rounded-full text-primary text-sm font-chakra uppercase tracking-widest mb-4">
+              Coming Soon
+            </span>
+            <h2 className="font-russo text-4xl md:text-5xl text-white uppercase tracking-wider">
+              Tournament Bracket
+            </h2>
+          </div>
+          <Card className="py-12">
+            <div className="text-center">
+              <Swords className="w-12 h-12 text-muted mx-auto mb-4" />
+              <h3 className="font-russo text-lg text-white uppercase tracking-wide mb-2">
+                Bracket Coming Soon
+              </h3>
+              <p className="font-chakra text-sm text-muted max-w-md mx-auto">
+                The tournament bracket will be revealed once teams are confirmed.
+                Stay tuned for updates!
+              </p>
+            </div>
+          </Card>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="py-20 px-4">
       <div className="max-w-7xl mx-auto">
@@ -102,15 +101,19 @@ export function BracketSection() {
         <Card className="overflow-hidden">
           <CardHeader>
             <div className="flex items-center justify-between">
-              <CardTitle>Ascendant League Season 1</CardTitle>
-              <span className="flex items-center gap-2 text-primary text-sm font-chakra">
-                <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-                Live
-              </span>
+              <CardTitle>{bracket.tournamentName || "Tournament Bracket"}</CardTitle>
+              {bracket.rounds.some((r) =>
+                r.matches.some((m) => m.isLive)
+              ) && (
+                <span className="flex items-center gap-2 text-primary text-sm font-chakra">
+                  <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
+                  Live Match
+                </span>
+              )}
             </div>
           </CardHeader>
           <CardContent>
-            <TournamentBracketDisplay bracket={sampleBracket} />
+            <TournamentBracketDisplay bracket={bracket} />
           </CardContent>
         </Card>
       </div>
