@@ -44,10 +44,13 @@ export default function ContactPage() {
           animate="visible"
           className="text-center mb-12"
         >
-          <h1 className="font-rajdhani font-bold text-4xl md:text-5xl text-gold uppercase tracking-wider mb-4">
+          <span className="inline-block px-4 py-1 bg-primary/10 border border-primary/30 rounded-full text-primary text-sm font-chakra uppercase tracking-widest mb-4">
+            Get In Touch
+          </span>
+          <h1 className="font-russo text-4xl md:text-5xl text-white uppercase tracking-wider mb-4">
             Contact & Community
           </h1>
-          <p className="font-inter text-silver max-w-lg mx-auto">
+          <p className="font-chakra text-silver max-w-lg mx-auto">
             Join our community or reach out for support. We&apos;re here to help.
           </p>
         </motion.div>
@@ -61,14 +64,14 @@ export default function ContactPage() {
               animate="visible"
               transition={{ delay: index * 0.1 }}
             >
-              <Card className="h-full flex flex-col">
-                <div className="p-3 bg-gold/10 rounded-lg w-fit mb-4">
-                  <method.icon className="w-6 h-6 text-gold" />
+              <Card className="h-full flex flex-col hover-lift">
+                <div className="p-3 bg-primary/10 rounded-buttons border border-primary/20 w-fit mb-4">
+                  <method.icon className="w-6 h-6 text-primary" />
                 </div>
-                <h3 className="font-rajdhani font-semibold text-xl text-white uppercase tracking-wider mb-2">
+                <h3 className="font-russo text-xl text-white uppercase tracking-wide mb-2">
                   {method.title}
                 </h3>
-                <p className="font-inter text-silver text-sm leading-relaxed mb-6 flex-1">
+                <p className="font-chakra text-silver text-sm leading-relaxed mb-6 flex-1">
                   {method.description}
                 </p>
                 <Button variant="secondary" className="w-full" asChild>
@@ -89,7 +92,7 @@ export default function ContactPage() {
           animate="visible"
           transition={{ delay: 0.3 }}
         >
-          <h2 className="font-rajdhani font-semibold text-2xl text-gold uppercase tracking-wider mb-6 text-center">
+          <h2 className="font-russo text-2xl text-white uppercase tracking-wide mb-6 text-center">
             Frequently Asked Questions
           </h2>
           <div className="space-y-4">
@@ -116,10 +119,10 @@ export default function ContactPage() {
               },
             ].map((faq, index) => (
               <Card key={index}>
-                <h4 className="font-rajdhani font-medium text-white mb-2">
+                <h4 className="font-russo text-white mb-2 uppercase tracking-wide">
                   {faq.q}
                 </h4>
-                <p className="font-inter text-silver text-sm leading-relaxed">
+                <p className="font-chakra text-silver text-sm leading-relaxed">
                   {faq.a}
                 </p>
               </Card>

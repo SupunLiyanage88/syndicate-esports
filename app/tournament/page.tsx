@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { Calendar, Users, Swords, Clock, AlertTriangle, MessageCircle } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import { GoldDivider } from "@/components/ui/GoldDivider";
+import { RedDivider } from "@/components/ui/RedDivider";
 import { tournamentSchedule as fallbackSchedule } from "@/lib/mock-data";
 
 const fadeInUp = {
@@ -78,14 +78,19 @@ export default function TournamentPage() {
   return (
     <div className="min-h-screen py-20 px-4">
       <div className="max-w-4xl mx-auto">
-        <motion.h1
+        <motion.div
           variants={fadeInUp}
           initial="hidden"
           animate="visible"
-          className="font-rajdhani font-bold text-4xl md:text-5xl text-gold text-center uppercase tracking-wider mb-12"
+          className="text-center mb-12"
         >
-          Tournament Info
-        </motion.h1>
+          <span className="inline-block px-4 py-1 bg-primary/10 border border-primary/30 rounded-full text-primary text-sm font-chakra uppercase tracking-widest mb-4">
+            Competition Details
+          </span>
+          <h1 className="font-russo text-4xl md:text-5xl text-white uppercase tracking-wider">
+            Tournament Info
+          </h1>
+        </motion.div>
 
         <div className="space-y-6 mb-12">
           {sections.map((section, index) => (
@@ -98,14 +103,14 @@ export default function TournamentPage() {
             >
               <Card>
                 <div className="flex items-start gap-4">
-                  <div className="p-3 bg-gold/10 rounded-lg">
-                    <section.icon className="w-6 h-6 text-gold" />
+                  <div className="p-3 bg-primary/10 rounded-buttons border border-primary/20">
+                    <section.icon className="w-6 h-6 text-primary" />
                   </div>
                   <div>
-                    <h2 className="font-rajdhani font-semibold text-xl text-white uppercase tracking-wider mb-3">
+                    <h2 className="font-russo text-xl text-white uppercase tracking-wide mb-3">
                       {section.title}
                     </h2>
-                    <p className="font-inter text-silver leading-relaxed">
+                    <p className="font-chakra text-silver leading-relaxed">
                       {section.content}
                     </p>
                   </div>
@@ -115,7 +120,7 @@ export default function TournamentPage() {
           ))}
         </div>
 
-        <GoldDivider />
+        <RedDivider />
 
         <motion.div
           variants={fadeInUp}
@@ -124,41 +129,41 @@ export default function TournamentPage() {
           transition={{ delay: 0.3 }}
           className="mb-12"
         >
-          <h2 className="font-rajdhani font-semibold text-2xl text-gold uppercase tracking-wider mb-6 flex items-center gap-3">
-            <Calendar className="w-6 h-6" />
+          <h2 className="font-russo text-2xl text-white uppercase tracking-wide mb-6 flex items-center gap-3">
+            <Calendar className="w-6 h-6 text-primary" />
             Schedule
           </h2>
           <Card>
             <div className="space-y-4">
               <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-                <span className="font-rajdhani font-medium text-white uppercase tracking-wider min-w-[200px]">
+                <span className="font-russo text-sm text-primary uppercase tracking-wider min-w-[200px]">
                   Registration Deadline:
                 </span>
-                <span className="font-inter text-gold-light">
+                <span className="font-chakra text-white font-medium">
                   {formatDate(schedule.registrationDeadline)}
                 </span>
               </div>
               <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-                <span className="font-rajdhani font-medium text-white uppercase tracking-wider min-w-[200px]">
+                <span className="font-russo text-sm text-primary uppercase tracking-wider min-w-[200px]">
                   Group Stage:
                 </span>
-                <span className="font-inter text-silver">
+                <span className="font-chakra text-silver">
                   {formatShortDate(schedule.groupStage.start)} — {formatDate(schedule.groupStage.end)}
                 </span>
               </div>
               <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-                <span className="font-rajdhani font-medium text-white uppercase tracking-wider min-w-[200px]">
+                <span className="font-russo text-sm text-primary uppercase tracking-wider min-w-[200px]">
                   Semi-Finals:
                 </span>
-                <span className="font-inter text-silver">
+                <span className="font-chakra text-silver">
                   {formatDate(schedule.semiFinals)}
                 </span>
               </div>
               <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-                <span className="font-rajdhani font-medium text-white uppercase tracking-wider min-w-[200px]">
+                <span className="font-russo text-sm text-primary uppercase tracking-wider min-w-[200px]">
                   Grand Final:
                 </span>
-                <span className="font-inter text-gold-light font-medium">
+                <span className="font-chakra text-primary font-medium">
                   {formatDate(schedule.grandFinal)}
                 </span>
               </div>
@@ -173,14 +178,14 @@ export default function TournamentPage() {
           transition={{ delay: 0.4 }}
           className="mb-12"
         >
-          <Card className="border-2 border-gold bg-gold/5">
+          <Card className="border-2 border-primary/50 bg-primary/5">
             <div className="flex items-center gap-4">
-              <AlertTriangle className="w-8 h-8 text-gold flex-shrink-0" />
+              <AlertTriangle className="w-8 h-8 text-primary flex-shrink-0" />
               <div>
-                <h3 className="font-rajdhani font-semibold text-xl text-gold uppercase tracking-wider mb-2">
+                <h3 className="font-russo text-xl text-primary uppercase tracking-wide mb-2">
                   Registration Closes {formatDate(schedule.registrationDeadline)}
                 </h3>
-                <p className="font-inter text-silver">
+                <p className="font-chakra text-silver">
                   Limited to {maxTeams} teams. Secure your spot now.
                 </p>
               </div>
@@ -195,7 +200,7 @@ export default function TournamentPage() {
           transition={{ delay: 0.5 }}
           className="text-center"
         >
-          <p className="font-inter text-muted mb-4">Have questions?</p>
+          <p className="font-chakra text-muted mb-4">Have questions?</p>
           <Button variant="secondary" asChild>
             <Link href="/contact">
               <MessageCircle className="w-5 h-5 mr-2" />
