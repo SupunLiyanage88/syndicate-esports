@@ -30,7 +30,7 @@ export function Navbar() {
               height={40}
               className="drop-shadow-[0_0_10px_rgba(201,162,39,0.3)]"
             />
-            <span className="font-rajdhani font-bold text-lg text-gold-light uppercase tracking-wider hidden sm:block">
+            <span className="font-orbitron font-bold text-lg text-gold-light uppercase tracking-wider hidden sm:block">
               Syndicate
             </span>
           </Link>

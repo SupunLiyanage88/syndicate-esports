@@ -25,6 +25,7 @@ const config: Config = {
       fontFamily: {
         rajdhani: ["Rajdhani", "sans-serif"],
         inter: ["Inter", "sans-serif"],
+        orbitron: ["Orbitron", "sans-serif"],
       },
       borderRadius: {
         cards: "12px",
