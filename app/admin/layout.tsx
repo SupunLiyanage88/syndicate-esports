@@ -12,12 +12,14 @@ import {
   Trophy,
   Menu,
   X,
+  Swords,
 } from "lucide-react";
 import { AdminUser } from "@/lib/types";
 
 const navItems = [
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
   { label: "Teams", href: "/admin/teams", icon: Users },
+  { label: "Bracket", href: "/admin/bracket", icon: Swords },
   { label: "Settings", href: "/admin/settings", icon: Settings },
 ];
 

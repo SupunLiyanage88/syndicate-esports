@@ -4,17 +4,24 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import "./globals.css";
 
-const rajdhani = Rajdhani({
+const russoOne = Russo_One({
+  weight: "400",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-rajdhani",
+  variable: "--font-russo",
   display: "swap",
 });
 
-const inter = Inter({
+const chakraPetch = Chakra_Petch({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-inter",
+  variable: "--font-chakra",
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-mono",
   display: "swap",
 });
 
@@ -52,7 +59,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${rajdhani.variable} ${inter.variable} ${orbitron.variable}`}>
+    <html lang="en" className={`${rajdhani.variable} ${inter.variable}`}>
       <body className="font-inter bg-background text-white antialiased">
         <Navbar />
         <main className="min-h-screen pt-16">{children}</main>
