@@ -31,9 +31,14 @@ export function Navbar() {
               height={40}
               className="drop-shadow-[0_0_10px_rgba(201,162,39,0.3)]"
             />
-            <span className="font-rajdhani font-bold text-lg text-gold-light uppercase tracking-wider hidden sm:block">
-              Syndicate
-            </span>
+            <div className="flex flex-col leading-none">
+              <span style={{ fontFamily: "var(--font-ethnocentric)" }} className="text-base text-[#b26d02] tracking-wider">
+                Syndicate
+              </span>
+              <span style={{ fontFamily: "var(--font-ethnocentric)" }} className="text-[10px] text-silver tracking-widest uppercase">
+                Esports
+              </span>
+            </div>
           </Link>
 
           {/* Desktop nav */}

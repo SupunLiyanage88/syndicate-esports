@@ -1,8 +1,29 @@
 import type { Metadata } from "next";
-import { Rajdhani, Inter, Orbitron } from "next/font/google";
+import { Rajdhani, Inter, Russo_One, Chakra_Petch, JetBrains_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import "./globals.css";
+
+const ethnocentric = localFont({
+  src: "../public/fonts/Ethnocentric-Regular.otf",
+  variable: "--font-ethnocentric",
+  display: "swap",
+});
+
+const rajdhani = Rajdhani({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-rajdhani",
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-inter",
+  display: "swap",
+});
 
 const russoOne = Russo_One({
   weight: "400",
@@ -22,13 +43,6 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
   variable: "--font-mono",
-  display: "swap",
-});
-
-const orbitron = Orbitron({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
-  variable: "--font-orbitron",
   display: "swap",
 });
 
@@ -59,7 +73,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${rajdhani.variable} ${inter.variable}`}>
+    <html lang="en" className={`${rajdhani.variable} ${inter.variable} ${ethnocentric.variable} ${russoOne.variable} ${chakraPetch.variable} ${jetbrainsMono.variable}`}>
       <body className="font-inter bg-background text-white antialiased">
         <Navbar />
         <main className="min-h-screen pt-16">{children}</main>

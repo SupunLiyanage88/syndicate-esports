@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { CountdownTimer } from "@/components/ui/CountdownTimer";
 import { CyberpunkTitle } from "@/components/ui/CyberpunkTitle";
+import DarkVeil from "@/components/ui/DarkVeil";
 import { tournamentSchedule as fallback } from "@/lib/mock-data";
 
 const fadeInUp = {
@@ -38,6 +39,18 @@ export function HeroSection() {
 
   return (
     <section className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden">
+      {/* DarkVeil Background */}
+      <div className="absolute inset-0">
+        <DarkVeil
+          speed={0.5}
+          hueShift={242}
+          noiseIntensity={0}
+          scanlineIntensity={0}
+          scanlineFrequency={5}
+          warpAmount={5}
+        />
+      </div>
+
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(230,57,70,0.12)_0%,transparent_60%)]" />
@@ -93,7 +106,7 @@ export function HeroSection() {
         variants={container}
         initial="hidden"
         animate="visible"
-        className="relative z-10 text-center px-4 max-w-5xl mx-auto pt-16"
+        className="relative z-10 text-center px-4 max-w-5xl mx-auto pt-5"
       >
         {/* Tournament Logos - Syndicate Esports + Ascendant League */}
         <motion.div variants={fadeInUp} className="mb-8">
@@ -104,12 +117,11 @@ export function HeroSection() {
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
-              <div className="absolute inset-0 bg-primary/15 blur-xl rounded-full" />
               <Image
-                src="/images/syndicate logo.png"
+                src="/images/syndicate_logo_with_text.png"
                 alt="Syndicate Esports"
-                width={80}
-                height={80}
+                width={100}
+                height={100}
                 className="relative drop-shadow-[0_0_20px_rgba(230,57,70,0.4)]"
                 priority
               />
@@ -156,7 +168,7 @@ export function HeroSection() {
 
           {/* Game Badge */}
           <motion.div
-            className="mt-4 flex items-center justify-center gap-2"
+            className="mt-2 flex items-center justify-center gap-2"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}

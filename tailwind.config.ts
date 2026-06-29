@@ -30,7 +30,10 @@ const config: Config = {
       fontFamily: {
         rajdhani: ["Rajdhani", "sans-serif"],
         inter: ["Inter", "sans-serif"],
-        orbitron: ["Orbitron", "sans-serif"],
+        ethnocentric: ["Ethnocentric", "sans-serif"],
+        russo: ["Russo One", "sans-serif"],
+        chakra: ["Chakra Petch", "sans-serif"],
+        mono: ["JetBrains Mono", "monospace"],
       },
       borderRadius: {
         cards: "8px",

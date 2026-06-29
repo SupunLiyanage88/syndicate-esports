@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Trophy, Star } from "lucide-react";
+import Image from "next/image";
 import { Card } from "@/components/ui/Card";
 
 const fadeInUp = {
@@ -28,7 +28,7 @@ export function PrizeSection() {
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Champion Prize */}
           <motion.div
             variants={fadeInUp}
@@ -37,24 +37,31 @@ export function PrizeSection() {
             viewport={{ once: true }}
             custom={0}
           >
-            <Card className="border-2 border-gold/50 hover:border-gold hover:shadow-gold-glow transition-all duration-300 h-full relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-gold/5 rounded-full -translate-y-1/2 translate-x-1/2" />
-              <div className="relative">
-                <div className="flex items-start gap-4">
-                  <div className="p-4 bg-gold/10 rounded-buttons border border-gold/20">
-                    <Trophy className="w-8 h-8 text-gold" />
+            <motion.div
+              whileHover={{ scale: 1.03 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            >
+              <Card className="border-2 border-gold/50 hover:border-gold hover:shadow-gold-glow transition-all duration-300 h-full relative overflow-hidden">
+                <div className="relative p-6 flex flex-col items-center">
+                  <div className="relative w-full h-[280px] flex items-center justify-center mb-6">
+                    <div className="absolute inset-0 bg-gold/5 rounded-lg" />
+                    <Image
+                      src="/images/starlight_card.png"
+                      alt="Starlight Membership"
+                      width={280}
+                      height={280}
+                      className="object-contain relative z-10 drop-shadow-[0_0_30px_rgba(201,162,39,0.3)]"
+                    />
                   </div>
-                  <div>
-                    <h3 className="font-russo text-xl text-gold uppercase tracking-wide mb-2">
-                      Champion Team
-                    </h3>
-                    <p className="font-chakra text-silver text-lg leading-relaxed">
-                      5 × MLBB Starlight Memberships
-                    </p>
-                  </div>
+                  <h3 className="font-russo text-2xl text-gold uppercase tracking-wide mb-2 text-center">
+                    Champion Team
+                  </h3>
+                  <p className="font-chakra text-silver text-lg text-center">
+                    5 × MLBB Starlight Memberships
+                  </p>
                 </div>
-              </div>
-            </Card>
+              </Card>
+            </motion.div>
           </motion.div>
 
           {/* MVP Prize */}
@@ -65,24 +72,31 @@ export function PrizeSection() {
             viewport={{ once: true }}
             custom={1}
           >
-            <Card className="border-2 border-primary/50 hover:border-primary hover:shadow-red-glow transition-all duration-300 h-full relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -translate-y-1/2 translate-x-1/2" />
-              <div className="relative">
-                <div className="flex items-start gap-4">
-                  <div className="p-4 bg-primary/10 rounded-buttons border border-primary/20">
-                    <Star className="w-8 h-8 text-primary" />
+            <motion.div
+              whileHover={{ scale: 1.03 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            >
+              <Card className="border-2 border-primary/50 hover:border-primary hover:shadow-red-glow transition-all duration-300 h-full relative overflow-hidden">
+                <div className="relative p-6 flex flex-col items-center">
+                  <div className="relative w-full h-[280px] flex items-center justify-center mb-6">
+                    <div className="absolute inset-0 bg-primary/5 rounded-lg" />
+                    <Image
+                      src="/images/starlight_card_premium.png"
+                      alt="Starlight Premium Membership"
+                      width={280}
+                      height={280}
+                      className="object-contain relative z-10 drop-shadow-[0_0_30px_rgba(230,57,70,0.3)]"
+                    />
                   </div>
-                  <div>
-                    <h3 className="font-russo text-xl text-primary uppercase tracking-wide mb-2">
-                      MVP Player
-                    </h3>
-                    <p className="font-chakra text-silver text-lg leading-relaxed">
-                      1 × Starlight Premium Membership
-                    </p>
-                  </div>
+                  <h3 className="font-russo text-2xl text-primary uppercase tracking-wide mb-2 text-center">
+                    MVP Player
+                  </h3>
+                  <p className="font-chakra text-silver text-lg text-center">
+                    1 × Starlight Premium Membership
+                  </p>
                 </div>
-              </div>
-            </Card>
+              </Card>
+            </motion.div>
           </motion.div>
         </div>
 
