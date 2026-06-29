@@ -2,25 +2,30 @@ import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import { Admin } from "@/lib/models/admin";
 import { Settings } from "@/lib/models/settings";
-import { hashPassword } from "@/lib/auth";
+import { hashPassword, getTokenFromCookies, verifyToken } from "@/lib/auth";
 
-export async function POST() {
+export async function POST(request: Request) {
   try {
-    await connectDB();
-
-    // Seed admin
-    const existingAdmin = await Admin.findOne({ email: process.env.ADMIN_EMAIL });
-    if (!existingAdmin) {
-      const hashed = await hashPassword(process.env.ADMIN_PASSWORD || "Admin@2026");
-      await Admin.create({
-        email: process.env.ADMIN_EMAIL || "admin@syndicate-esports.lk",
-        password: hashed,
-        name: "Syndicate Admin",
-      });
-      console.log("Admin account created");
+    // Require authentication for seed endpoint
+    const token = getTokenFromCookies(request);
+    if (!token) {
+      return NextResponse.json(
+        { success: false, message: "Unauthorized" },
+        { status: 401 }
+      );
     }
 
-    // Seed settings
+    const decoded = verifyToken(token);
+    if (!decoded) {
+      return NextResponse.json(
+        { success: false, message: "Invalid token" },
+        { status: 401 }
+      );
+    }
+
+    await connectDB();
+
+    // Seed settings only (admin should already exist)
     const existingSettings = await Settings.findOne();
     if (!existingSettings) {
       await Settings.create({
@@ -38,7 +43,7 @@ export async function POST() {
 
     return NextResponse.json({ success: true, message: "Seed data created" });
   } catch (error) {
-    console.error("Seed error:", error);
+    console.error("Seed error");
     return NextResponse.json(
       { success: false, message: "Seed failed" },
       { status: 500 }

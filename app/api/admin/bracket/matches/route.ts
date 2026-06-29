@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import { Bracket } from "@/lib/models/bracket";
 import { verifyToken, getTokenFromCookies } from "@/lib/auth";
+import { matchUpdateSchema } from "@/lib/validation";
 
 function unauthorized() {
   return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
@@ -16,14 +17,17 @@ export async function PATCH(request: Request) {
     await connectDB();
 
     const body = await request.json();
-    const { matchId, team1Score, team2Score, winnerId, isLive, scheduledTime } = body;
 
-    if (!matchId) {
+    // Validate input
+    const result = matchUpdateSchema.safeParse(body);
+    if (!result.success) {
       return NextResponse.json(
-        { success: false, error: "matchId is required" },
+        { success: false, errors: result.error.flatten().fieldErrors },
         { status: 400 }
       );
     }
+
+    const { matchId, team1Score, team2Score, winnerId, isLive, scheduledTime } = result.data;
 
     const bracket = await Bracket.findOne();
     if (!bracket) {
@@ -107,7 +111,7 @@ export async function PATCH(request: Request) {
       message: "Match updated successfully",
     });
   } catch (error) {
-    console.error("Error updating match:", error);
+    console.error("Error updating match");
     return NextResponse.json(
       { success: false, error: "Failed to update match" },
       { status: 500 }

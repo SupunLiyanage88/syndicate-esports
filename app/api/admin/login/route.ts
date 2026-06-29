@@ -2,22 +2,10 @@ import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import { Admin } from "@/lib/models/admin";
 import { Settings } from "@/lib/models/settings";
-import { comparePassword, signToken, hashPassword } from "@/lib/auth";
+import { comparePassword, signToken } from "@/lib/auth";
+import { checkRateLimit } from "@/lib/rate-limit";
 
-async function seedData() {
-  // Seed admin if not exists
-  const adminCount = await Admin.countDocuments();
-  if (adminCount === 0) {
-    const hashed = await hashPassword(process.env.ADMIN_PASSWORD || "Admin@2026");
-    await Admin.create({
-      email: process.env.ADMIN_EMAIL || "admin@syndicate-esports.lk",
-      password: hashed,
-      name: "Syndicate Admin",
-    });
-    console.log("Default admin seeded");
-  }
-
-  // Seed settings if not exists
+async function seedSettings() {
   const settingsCount = await Settings.countDocuments();
   if (settingsCount === 0) {
     await Settings.create({
@@ -36,6 +24,18 @@ async function seedData() {
 
 export async function POST(request: Request) {
   try {
+    // Rate limiting: 10 attempts per 15 minutes per IP
+    const forwarded = request.headers.get("x-forwarded-for");
+    const ip = forwarded?.split(",")[0] || "unknown";
+    const rateLimit = checkRateLimit(`login:${ip}`, { windowMs: 900000, maxRequests: 10 });
+
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        { success: false, message: "Too many login attempts. Please try again later." },
+        { status: 429 }
+      );
+    }
+
     const { email, password } = await request.json();
 
     if (!email || !password) {
@@ -47,8 +47,8 @@ export async function POST(request: Request) {
 
     await connectDB();
 
-    // Auto-seed on first login
-    await seedData();
+    // Seed settings on first run (not admin - that should be done via env vars)
+    await seedSettings();
 
     const admin = await Admin.findOne({ email });
     if (!admin) {
@@ -83,7 +83,7 @@ export async function POST(request: Request) {
 
     return response;
   } catch (error) {
-    console.error("Login error:", error);
+    console.error("Login error");
     return NextResponse.json(
       { success: false, message: "Internal server error" },
       { status: 500 }

@@ -2,9 +2,22 @@ import { NextResponse } from "next/server";
 import { registrationSchema } from "@/lib/validation";
 import { connectDB } from "@/lib/mongodb";
 import { Team } from "@/lib/models/team";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 export async function POST(request: Request) {
   try {
+    // Rate limiting: 5 registrations per hour per IP
+    const forwarded = request.headers.get("x-forwarded-for");
+    const ip = forwarded?.split(",")[0] || "unknown";
+    const rateLimit = checkRateLimit(`register:${ip}`, { windowMs: 3600000, maxRequests: 5 });
+
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        { success: false, message: "Too many registration attempts. Please try again later." },
+        { status: 429 }
+      );
+    }
+
     const body = await request.json();
 
     const result = registrationSchema.safeParse(body);
@@ -56,7 +69,7 @@ export async function POST(request: Request) {
       { status: 200 }
     );
   } catch (error) {
-    console.error("Registration error:", error);
+    console.error("Registration error");
     return NextResponse.json(
       { success: false, message: "Internal server error" },
       { status: 500 }

@@ -49,4 +49,30 @@ export const registrationSchema = z.object({
   }),
 });
 
+export const settingsUpdateSchema = z.object({
+  registrationDeadline: z.string().optional(),
+  groupStageStart: z.string().optional(),
+  groupStageEnd: z.string().optional(),
+  semiFinals: z.string().optional(),
+  grandFinal: z.string().optional(),
+  maxTeams: z.number().int().min(2).max(64).optional(),
+  championPrize: z.string().max(200).optional(),
+  mvpPrize: z.string().max(200).optional(),
+});
+
+export const bracketUpdateSchema = z.object({
+  isVisible: z.boolean().optional(),
+  champion: z.string().optional().nullable(),
+  mvp: z.string().optional().nullable(),
+});
+
+export const matchUpdateSchema = z.object({
+  matchId: z.string().min(1, "matchId is required"),
+  team1Score: z.number().int().min(0).optional(),
+  team2Score: z.number().int().min(0).optional(),
+  winnerId: z.string().optional().nullable(),
+  isLive: z.boolean().optional(),
+  scheduledTime: z.string().optional().nullable(),
+});
+
 export type RegistrationInput = z.infer<typeof registrationSchema>;

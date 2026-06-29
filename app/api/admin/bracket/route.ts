@@ -3,6 +3,7 @@ import { connectDB } from "@/lib/mongodb";
 import { Bracket } from "@/lib/models/bracket";
 import { Team } from "@/lib/models/team";
 import { verifyToken, getTokenFromCookies } from "@/lib/auth";
+import { bracketUpdateSchema } from "@/lib/validation";
 
 function unauthorized() {
   return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
@@ -162,7 +163,17 @@ export async function PATCH(request: Request) {
     await connectDB();
 
     const body = await request.json();
-    const { isVisible, champion, mvp } = body;
+
+    // Validate input
+    const result = bracketUpdateSchema.safeParse(body);
+    if (!result.success) {
+      return NextResponse.json(
+        { success: false, errors: result.error.flatten().fieldErrors },
+        { status: 400 }
+      );
+    }
+
+    const { isVisible, champion, mvp } = result.data;
 
     const bracket = await Bracket.findOne();
     if (!bracket) {
@@ -195,7 +206,7 @@ export async function PATCH(request: Request) {
       },
     });
   } catch (error) {
-    console.error("Error updating bracket:", error);
+    console.error("Error updating bracket");
     return NextResponse.json(
       { success: false, error: "Failed to update bracket" },
       { status: 500 }

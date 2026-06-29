@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { verifyToken, getTokenFromCookies } from "@/lib/auth";
 import { connectDB } from "@/lib/mongodb";
 import { Settings } from "@/lib/models/settings";
+import { settingsUpdateSchema } from "@/lib/validation";
 
 function unauthorized() {
   return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
@@ -30,7 +31,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json({ success: true, settings });
   } catch (error) {
-    console.error("Error fetching settings:", error);
+    console.error("Error fetching settings");
     return NextResponse.json(
       { success: false, message: "Internal server error" },
       { status: 500 }
@@ -43,22 +44,49 @@ export async function PATCH(request: Request) {
   if (!token || !verifyToken(token)) return unauthorized();
 
   try {
-    const data = await request.json();
+    const body = await request.json();
+
+    // Validate input
+    const result = settingsUpdateSchema.safeParse(body);
+    if (!result.success) {
+      return NextResponse.json(
+        { success: false, errors: result.error.flatten().fieldErrors },
+        { status: 400 }
+      );
+    }
+
     await connectDB();
 
     let settings = await Settings.findOne().sort({ updatedAt: -1 });
 
     if (settings) {
-      Object.assign(settings, data);
+      // Only update allowed fields
+      const allowedFields = [
+        "registrationDeadline",
+        "groupStageStart",
+        "groupStageEnd",
+        "semiFinals",
+        "grandFinal",
+        "maxTeams",
+        "championPrize",
+        "mvpPrize",
+      ];
+
+      for (const field of allowedFields) {
+        if (result.data[field as keyof typeof result.data] !== undefined) {
+          (settings as any)[field] = result.data[field as keyof typeof result.data];
+        }
+      }
+
       settings.updatedAt = new Date();
       await settings.save();
     } else {
-      settings = await Settings.create(data);
+      settings = await Settings.create(result.data);
     }
 
     return NextResponse.json({ success: true, settings });
   } catch (error) {
-    console.error("Error updating settings:", error);
+    console.error("Error updating settings");
     return NextResponse.json(
       { success: false, message: "Internal server error" },
       { status: 500 }
